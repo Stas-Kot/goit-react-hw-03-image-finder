@@ -20,6 +20,7 @@ class App extends Component {
     showModal: false,
     gallery: null,
     activeImgIdx: 0,
+    page: 1,
   };
 
   setActiveImgIdx = index => {
@@ -38,12 +39,18 @@ class App extends Component {
   };
 
   onSubmit = query => {
-    this.setState({ searchQuery: query });
+    this.setState({ searchQuery: query, page: 1 });
   };
 
   toggleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
+    }));
+  };
+
+  onLoadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
     }));
   };
 
@@ -57,6 +64,8 @@ class App extends Component {
           handeleActiveIdx={this.setActiveImgIdx}
           onNewFetch={this.handleNewFetch}
           onLoadMoreFetch={this.handleLoadMoreFetch}
+          currentPage={this.state.page}
+          onLoadMore={this.onLoadMore}
         />
         <ToastContainer autoClose={3000} />
         {this.state.showModal && (

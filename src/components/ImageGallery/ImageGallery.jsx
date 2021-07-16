@@ -11,25 +11,20 @@ export default class ImageGallery extends Component {
   state = {
     gallery: null,
     error: null,
-    page: 1,
     per_page: 12,
     status: 'idle',
   };
 
-  onLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
-  };
-
   componentDidUpdate(prevProps, prevState) {
-    const { per_page, page } = this.state;
+    const { per_page } = this.state;
     const prevQuery = prevProps.query;
     const newQuery = this.props.query;
+    const prevPage = prevProps.currentPage;
+    const newPage = this.props.currentPage;
     if (prevQuery !== newQuery) {
       this.setState({ status: 'pending', gallery: null });
       fetch(
-        `https://pixabay.com/api/?q=${newQuery}&page=${page}&key=${this.api_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
+        `https://pixabay.com/api/?q=${newQuery}&page=${newPage}&key=${this.api_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
       )
         .then(response => {
           if (response.ok) {
@@ -45,18 +40,16 @@ export default class ImageGallery extends Component {
             this.setState({ status: 'idle' });
           } else {
             this.props.onNewFetch(hits);
-            this.setState({ gallery: hits, status: 'resolved', page: 1 });
+            this.setState({ gallery: hits, status: 'resolved' });
           }
         })
         .catch(error => this.setState({ error, status: 'rejected' }));
     }
 
-    const prevPage = prevState.page;
-    const newPage = this.state.page;
     if (prevPage !== newPage) {
       this.setState({ status: 'pendingMore' });
       fetch(
-        `https://pixabay.com/api/?q=${newQuery}&page=${page}&key=${this.api_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
+        `https://pixabay.com/api/?q=${newQuery}&page=${newPage}&key=${this.api_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
       )
         .then(response => {
           if (response.ok) {
@@ -118,7 +111,7 @@ export default class ImageGallery extends Component {
               />
             ))}
           </ImageGalleryList>
-          <Button onClick={this.onLoadMore} />
+          <Button onClick={this.props.onLoadMore} />
         </>
       );
     }
