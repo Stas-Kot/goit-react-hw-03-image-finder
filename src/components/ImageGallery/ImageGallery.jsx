@@ -45,7 +45,7 @@ export default class ImageGallery extends Component {
             this.setState({ status: 'idle' });
           } else {
             this.props.onNewFetch(hits);
-            this.setState({ gallery: hits, status: 'resolved' });
+            this.setState({ gallery: hits, status: 'resolved', page: 1 });
           }
         })
         .catch(error => this.setState({ error, status: 'rejected' }));
