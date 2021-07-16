@@ -79,6 +79,10 @@ export default class ImageGallery extends Component {
         })
         .catch(error => this.setState({ error, status: 'rejected' }));
     }
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
   render() {
     const { gallery, error, status } = this.state;
