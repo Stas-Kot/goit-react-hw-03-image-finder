@@ -9,7 +9,7 @@ export default class ImageGallery extends Component {
   api_KEY = '21750958-271f4873848cc9d3a2fe2c382';
 
   state = {
-    gallery: null,
+    gallery: [],
     error: null,
     per_page: 12,
     status: 'idle',

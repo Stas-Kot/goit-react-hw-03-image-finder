@@ -18,7 +18,7 @@ class App extends Component {
   state = {
     searchQuery: '',
     showModal: false,
-    gallery: null,
+    gallery: [],
     activeImgIdx: 0,
     page: 1,
   };
