@@ -20,7 +20,7 @@ class App extends Component {
     showModal: false,
     gallery: [],
     activeImgIdx: 0,
-    page: 1,
+    // page: 1,
   };
 
   setActiveImgIdx = index => {
@@ -38,6 +38,12 @@ class App extends Component {
     }));
   };
 
+  onLoadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+  };
+
   onSubmit = query => {
     this.setState({ searchQuery: query, page: 1 });
   };
@@ -45,12 +51,6 @@ class App extends Component {
   toggleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
-    }));
-  };
-
-  onLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
     }));
   };
 

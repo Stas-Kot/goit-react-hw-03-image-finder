@@ -22,7 +22,7 @@ export default class ImageGallery extends Component {
     const prevPage = prevProps.currentPage;
     const newPage = this.props.currentPage;
     if (prevQuery !== newQuery) {
-      this.setState({ status: 'pending', gallery: null });
+      this.setState({ status: 'pending', gallery: [] });
       fetch(
         `https://pixabay.com/api/?q=${newQuery}&page=${newPage}&key=${this.api_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
       )
@@ -62,6 +62,7 @@ export default class ImageGallery extends Component {
         .then(({ hits }) => {
           if (hits.length === 0) {
             toast.error(`No more results were found for: ${newQuery}`);
+            this.setState({ status: 'resolved' });
             return;
           }
           this.props.onLoadMoreFetch(hits);
@@ -101,9 +102,9 @@ export default class ImageGallery extends Component {
       return (
         <>
           <ImageGalleryList>
-            {gallery.map(({ id, webformatURL, tags }, index) => (
+            {gallery.map(({ webformatURL, tags }, index) => (
               <ImageGalleryItem
-                key={id}
+                key={index}
                 webformatURL={webformatURL}
                 tags={tags}
                 openModal={this.props.handleModal}
