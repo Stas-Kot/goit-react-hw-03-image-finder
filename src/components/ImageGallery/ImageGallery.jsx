@@ -56,12 +56,16 @@ export default class ImageGallery extends Component {
             return response.json();
           }
           return Promise.reject(
-            new Error(`No more results were found for: ${newQuery}`),
+            new Error(
+              `We're sorry, there are no more results for: ${newQuery}`,
+            ),
           );
         })
         .then(({ hits }) => {
           if (hits.length === 0) {
-            toast.error(`No more results were found for: ${newQuery}`);
+            toast.error(
+              `We're sorry, there are no more results for: ${newQuery}`,
+            );
             this.setState({ status: 'resolved' });
             return;
           }
